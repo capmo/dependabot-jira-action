@@ -1,6 +1,6 @@
 {
-  "name": "typescript-action",
-  "version": "1.4.0",
+  "name": "dependabot-jira-action",
+  "version": "1.4.1",
   "private": true,
   "description": "TypeScript template action",
   "main": "lib/main.js",
