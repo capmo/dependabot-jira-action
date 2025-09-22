@@ -247,7 +247,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.closeJiraIssue = exports.createJiraIssue = exports.jiraApiSearch = exports.getJiraSearchApiUrl = exports.getJiraApiUrlV3 = void 0;
+exports.closeJiraIssue = exports.createJiraIssue = exports.jiraApiSearch = exports.getJiraApiUrlV3 = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const node_fetch_1 = __importDefault(__nccwpck_require__(467));
 const actions_1 = __nccwpck_require__(3623);
@@ -269,12 +269,6 @@ function getJiraApiUrlV3(path = '/') {
     return url;
 }
 exports.getJiraApiUrlV3 = getJiraApiUrlV3;
-function getJiraSearchApiUrl() {
-    const subdomain = process.env.JIRA_SUBDOMAIN;
-    const url = `https://${subdomain}.atlassian.net/rest/api/2/search`;
-    return url;
-}
-exports.getJiraSearchApiUrl = getJiraSearchApiUrl;
 function jiraApiPost(params) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -304,7 +298,7 @@ function jiraApiPost(params) {
 function jiraApiSearch({ jql }) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const getUrl = `${getJiraSearchApiUrl()}?jql=${encodeURIComponent(jql)}`;
+            const getUrl = `${getJiraApiUrlV3('/search/jql')}?jql=${encodeURIComponent(jql)}`;
             core.info(`jql ${jql}`);
             const requestParams = {
                 method: 'GET',
@@ -322,8 +316,8 @@ function jiraApiSearch({ jql }) {
             }
         }
         catch (e) {
-            core.error('Error getting the existing issue');
-            throw new Error('Error getting the existing issue');
+            core.error(`Error getting the existing issue ${e}`);
+            throw new Error(`Error getting the existing issue ${e}`);
         }
     });
 }
