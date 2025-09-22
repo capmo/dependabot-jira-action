@@ -50,12 +50,6 @@ export function getJiraApiUrlV3(path = '/'): string {
   return url
 }
 
-export function getJiraSearchApiUrl(): string {
-  const subdomain = process.env.JIRA_SUBDOMAIN
-  const url = `https://${subdomain}.atlassian.net/rest/api/2/search`
-  return url
-}
-
 async function jiraApiPost(params: ApiPostParams): Promise<ApiRequestResponse> {
   try {
     const {url, data} = params
@@ -83,7 +77,9 @@ export async function jiraApiSearch({
   jql
 }: SearchIssue): Promise<ApiRequestSearchResponse> {
   try {
-    const getUrl = `${getJiraSearchApiUrl()}?jql=${encodeURIComponent(jql)}`
+    const getUrl = `${getJiraApiUrlV3('/search/jql')}?jql=${encodeURIComponent(
+      jql
+    )}`
     core.info(`jql ${jql}`)
     const requestParams: RequestInit = {
       method: 'GET',
@@ -99,8 +95,8 @@ export async function jiraApiSearch({
       throw Error(message)
     }
   } catch (e) {
-    core.error('Error getting the existing issue')
-    throw new Error('Error getting the existing issue')
+    core.error(`Error getting the existing issue ${e}`)
+    throw new Error(`Error getting the existing issue ${e}`)
   }
 }
 
