@@ -300,11 +300,14 @@ function jiraApiPost(params) {
 function jiraApiSearch({ jql }) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const getUrl = `${getJiraApiUrlV3('/search/jql')}?jql=${encodeURIComponent(jql)}`;
+            const getUrl = `${getJiraApiUrlV3('/search/jql')}`;
             core.info(`jql ${jql}`);
             const requestParams = {
-                method: 'GET',
-                headers: getJiraAuthorizedHeader()
+                method: 'POST',
+                headers: getJiraAuthorizedHeader(),
+                body: JSON.stringify({
+                    jql: encodeURIComponent(jql)
+                })
             };
             const response = yield (0, node_fetch_1.default)(getUrl, requestParams);
             if (response.status === 200) {
