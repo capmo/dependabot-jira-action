@@ -306,7 +306,7 @@ function jiraApiSearch({ jql }) {
                 method: 'POST',
                 headers: getJiraAuthorizedHeader(),
                 body: JSON.stringify({
-                    jql: encodeURIComponent(jql)
+                    jql: `"${jql}"`
                 })
             };
             const response = yield (0, node_fetch_1.default)(getUrl, requestParams);

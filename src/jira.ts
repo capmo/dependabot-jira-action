@@ -83,7 +83,7 @@ export async function jiraApiSearch({
       method: 'POST',
       headers: getJiraAuthorizedHeader(),
       body: JSON.stringify({
-        jql: encodeURIComponent(jql)
+        jql: `"${jql}"`
       })
     }
     const response = await fetch(getUrl, requestParams)
