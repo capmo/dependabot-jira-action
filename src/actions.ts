@@ -86,7 +86,8 @@ export async function syncJiraWithClosedDependabotPulls(
       for (const issue of existingIssuesResponse.issues) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const issueNumber = extractIssueNumber(issue.fields.description)
+        const issueNumber = extractIssueNumber(issue?.fields?.description)
+        core.debug(JSON.stringify(issue, null, 2))
         const pullRequest = await getPullRequestByIssueId({
           repo,
           owner,

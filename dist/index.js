@@ -82,6 +82,7 @@ function syncJiraWithOpenDependabotPulls(params) {
 }
 exports.syncJiraWithOpenDependabotPulls = syncJiraWithOpenDependabotPulls;
 function syncJiraWithClosedDependabotPulls(params) {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             core.setOutput('Sync jira with closed dependabot pulls starting', new Date().toTimeString());
@@ -98,7 +99,8 @@ function syncJiraWithClosedDependabotPulls(params) {
                 for (const issue of existingIssuesResponse.issues) {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
-                    const issueNumber = extractIssueNumber(issue.fields.description);
+                    const issueNumber = extractIssueNumber((_a = issue === null || issue === void 0 ? void 0 : issue.fields) === null || _a === void 0 ? void 0 : _a.description);
+                    core.debug(JSON.stringify(issue, null, 2));
                     const pullRequest = yield (0, github_1.getPullRequestByIssueId)({
                         repo,
                         owner,
